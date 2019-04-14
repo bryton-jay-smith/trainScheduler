@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
   function calcTime(x, y) {
-    
+
     moment().format('MMMM Do YYYY, h:mm:ss a');
 
     // First Time (pushed back 1 year to make sure it comes before current time)
@@ -56,26 +56,37 @@ $(document).ready(function () {
     // Grabbed values from text boxes
     name = $("#name").val().trim();
     console.log(name);
-  
+
     destination = $("#destination").val().trim();
     console.log(destination);
-    
+
     frequency = $("#frequency").val().trim();
     console.log(frequency);
-    
+
     firstTime = $("#firstTime").val().trim();
     console.log(firstTime);
 
-    calcTime(firstTime, frequency);
+    if (name == "" | destination == "" | frequency == "" | firstTime == "") {
+      alert("Please fill out all feilds");
+    } else {
 
-    // Code for handling the push
-    database.ref().push({
-      name: name,
-      frequency: frequency,
-      destination: destination,
-      firstTime: firstTime,
-      dateAdded: firebase.database.ServerValue.TIMESTAMP
-    });
+      calcTime(firstTime, frequency);
+
+      // Code for handling the push
+      database.ref().push({
+        name: name,
+        frequency: frequency,
+        destination: destination,
+        firstTime: firstTime,
+        dateAdded: firebase.database.ServerValue.TIMESTAMP
+      });
+
+      $("#name").val("");
+      $("#destination").val("");
+      $("#frequency").val("");
+      $("#firstTime").val("");
+      console.log("cleared inputs");
+    }
 
   });
 
@@ -90,14 +101,14 @@ $(document).ready(function () {
     console.log(sv.destination);
     console.log(sv.firstTime);
 
-  calcTime(sv.firstTime, sv.frequency);
+    calcTime(sv.firstTime, sv.frequency);
 
-  console.log(arrivalTime);
+    console.log(arrivalTime);
 
-  console.log(timeTill);
-  
+    console.log(timeTill);
 
-    
+
+
 
     // Change the HTML to reflect
     tdName = "<td>" + sv.name + "</td>";
